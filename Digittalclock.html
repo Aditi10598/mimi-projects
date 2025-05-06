@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clock</title>
+</head>
+<body>
+    <style>
+        body {
+          background-color: #1d1d1d;
+          color: #00ffcc;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+          font-family: 'Courier New', Courier, monospace;
+          background: linear-gradient(-45deg, #f7f3f1, #f8cdda, #fb714a, #f3750e);
+          background-size: 400% 400%;
+          animation: gradientBG 15s ease infinite;
+        }
+       
+        
+        .clock {
+          font-size: 4em;
+          color: #00ffcc;
+          background:rgba(0, 0, 0, 0.7);
+          padding: 30px 60px;
+          border-radius: 15px;
+          box-shadow: 0 0 20px #00ffcc;
+          letter-spacing: 2px;
+          text-shadow: 0 0 10px #00ffcc;
+        }
+      </style>
+    </head>
+    <body>
+    
+      <div class="clock" id="clock">00:00:00</div>
+    
+      <script>
+        function updateClock() {
+          const now = new Date();
+          let hours = now.getHours();
+
+          const minutes = String(now.getMinutes()).padStart(2, '0');
+          const seconds = String(now.getSeconds()).padStart(2, '0');
+          const amPm = hours >= 12 ? 'PM' : 'AM';
+
+          hours = hours % 12;
+          hours = hours ? hours : 12; 
+          hours = String(hours).padStart(2, '0');
+          document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds} ${amPm}`;
+        }
+    
+        
+        setInterval(updateClock, 1000);
+        updateClock(); 
+      </script>
+    
+</body>
+</html>

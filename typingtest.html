@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Test</title>
+    <style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background-color: #f0f2f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      
+      .container {
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        width: 500px;
+        text-align: center;
+      }
+      
+      textarea {
+        width: 100%;
+        height: 100px;
+        margin-top: 15px;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      
+      .buttons {
+        margin-top: 20px;
+      }
+      
+      button {
+        padding: 10px 20px;
+        margin: 0 10px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      
+      button:hover {
+        background-color: #0056b3;
+      }
+      
+      #result {
+        margin-top: 20px;
+        font-size: 18px;
+      }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>Typing Speed Test</h1>
+        <p id="sentence">Click "Start Test" to begin</p>
+        <textarea id="input" placeholder="Type here..." disabled></textarea>
+        <div class="buttons">
+          <button id="start-btn">Start Test</button>
+          <button id="reset-btn">Reset</button>
+        </div>
+        <div id="result"></div>
+        <div id="timer">Time: 60s</div>
+        <div id="result"></div>
+      </div>
+
+      <script>
+         const sentences = [
+      "The quick brown fox jumps over the lazy dog.",
+      "JavaScript is a powerful programming language.",
+      "Typing tests help improve your speed and accuracy.",
+      "Practice makes perfect in coding and typing.",
+      "Frontend development includes HTML, CSS, and JavaScript."
+    ];
+
+    let startTime, intervalId, timeLeft = 60;
+    let currentSentence = "";
+
+    const sentenceEl = document.getElementById("sentence");
+    const inputEl = document.getElementById("input");
+    const startBtn = document.getElementById("start-btn");
+    const resetBtn = document.getElementById("reset-btn");
+    const resultEl = document.getElementById("result");
+    const timerEl = document.getElementById("timer");
+
+    startBtn.addEventListener("click", () => {
+      currentSentence = sentences[Math.floor(Math.random() * sentences.length)];
+      sentenceEl.textContent = currentSentence;
+      inputEl.value = "";
+      inputEl.disabled = false;
+      inputEl.focus();
+      resultEl.textContent = "";
+      timeLeft = 60;
+      timerEl.textContent = `Time: ${timeLeft}s`;
+
+      clearInterval(intervalId);
+      startTime = new Date().getTime();
+      intervalId = setInterval(updateTimer, 1000);
+    });
+
+    function updateTimer() {
+      timeLeft--;
+      timerEl.textContent = `Time: ${timeLeft}s`;
+
+      if (timeLeft <= 0) {
+        clearInterval(intervalId);
+        inputEl.disabled = true;
+        endTime = new Date().getTime();
+        const totalTimeInSeconds = (endTime - startTime) / 1000;
+        const typedText = inputEl.value.trim();
+        const wordCount = typedText.split(/\s+/).filter(Boolean).length;
+        const correctChars = getCorrectCharacterCount(currentSentence, typedText);
+        const accuracy = Math.round((correctChars / currentSentence.length) * 100);
+        const wpm = Math.round((wordCount / totalTimeInSeconds) * 60);
+
+        resultEl.innerHTML = `
+          <p>⏱️ Time: ${totalTimeInSeconds.toFixed(2)} seconds</p>
+          <p>💬 Speed: ${wpm} WPM</p>
+          <p>🎯 Accuracy: ${accuracy}%</p>
+        `;
+      }
+    }
+
+    inputEl.addEventListener("input", () => {
+      if (inputEl.value === currentSentence) {
+        clearInterval(intervalId);
+        endTime = new Date().getTime();
+        const totalTimeInSeconds = (endTime - startTime) / 1000;
+        const wordCount = currentSentence.split(" ").length;
+        const wpm = Math.round((wordCount / totalTimeInSeconds) * 60);
+        const correctChars = getCorrectCharacterCount(currentSentence, inputEl.value);
+        const accuracy = Math.round((correctChars / currentSentence.length) * 100);
+
+        resultEl.innerHTML = `
+          <p>⏱️ Time: ${totalTimeInSeconds.toFixed(2)} seconds</p>
+          <p>💬 Speed: ${wpm} WPM</p>
+          <p>🎯 Accuracy: ${accuracy}%</p>
+        `;
+
+        inputEl.disabled = true;
+      }
+    });
+
+    resetBtn.addEventListener("click", () => {
+      clearInterval(intervalId);
+      sentenceEl.textContent = "Click \"Start Test\" to begin";
+      inputEl.value = "";
+      inputEl.disabled = true;
+      resultEl.textContent = "";
+      timerEl.textContent = "Time: 60s";
+    });
+
+    function getCorrectCharacterCount(original, typed) {
+      let count = 0;
+      for (let i = 0; i < typed.length; i++) {
+        if (original[i] === typed[i]) {
+          count++;
+        }
+      }
+      return count;
+    }
+      </script>
+</body>
+</html>

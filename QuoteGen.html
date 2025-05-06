@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quote Genrator</title>
+    <style>
+        body {
+          font-family: 'Arial', sans-serif;
+          background: linear-gradient(to right, #d5f780, #074453);
+          height: 100vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 0;
+        }
+    .quote-box {
+        background: white;
+        padding: 30px 40px;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        max-width: 600px;
+      }
+  
+      .quote {
+        font-size: 1.5em;
+        color: #333;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+      }
+  
+      .author {
+        font-size: 1em;
+        color: #666;
+        margin-bottom: 30px;
+      }
+  
+      .btn {
+        padding: 10px 20px;
+        background-color: #658a07;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1em;
+        transition: background-color 0.3s;
+      }
+  
+      .btn:hover {
+        background-color: #176d8c;
+      }
+</style>
+</head>
+<body>
+    <div class="quote-box">
+        <div class="quote" id="quote">Click the button to get inspired!</div>
+        <div class="author" id="author"></div>
+        <button class="btn" onclick="getQuote()">New Quote</button>
+      </div>
+      <script>
+        const quotes = [
+          { quote: "Organizing is a practice of leadership whereby we define leadership as enabling others to achieve shared purpose under conditions of uncertainty"},
+          { quote: "The best way to get started is to quit talking and begin doing.", author: "Walt Disney" },
+          { quote: "Don’t let yesterday take up too much of today.", author: "Will Rogers" },
+          { quote: "It’s not whether you get knocked down, it’s whether you get up.", author: "Vince Lombardi" },
+          { quote: "If you are working on something exciting, it will keep you motivated.", author: "Steve Jobs" },
+          { quote: "Success is not in what you have, but who you are.", author: "Bo Bennett" },
+          { quote: "Hardships often prepare ordinary people for an extraordinary destiny.", author: "C.S. Lewis" },
+          { quote: "Push yourself, because no one else is going to do it for you.", author: "Unknown" },
+          { quote: "Great things never come from comfort zones.", author: "Unknown" }
+        ];
+
+          const colors = [
+          "#658a07",
+          "#e74c3ed", 
+          "#2980b9", 
+          "#27ae60", 
+          "#8e44ad", 
+          "#176d8c", 
+          "#2c3e50", 
+          "#16a085", 
+          "#f39c12", 
+          "#c0392b"  
+        ];
+      
+        function getQuote() {
+          const randomIndex = Math.floor(Math.random() * quotes.length);
+          const selected = quotes[randomIndex];
+          const randomColor = colors[randomIndex % colors.length];
+
+          document.getElementById("quote").textContent = `"${selected.quote}"`;
+          document.getElementById("author").textContent = `— ${selected.author}`;
+          document.getElementById("quote").style.color=randomColor;
+        }
+      </script>
+</body>
+</html>
